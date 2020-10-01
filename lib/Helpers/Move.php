@@ -5,6 +5,7 @@
  * @author Esteban Retana
  */
 $playerMove = makePlayerMove($slot);  // instance of Move
+
 if ($playerMove->isWin || $playerMove->isDraw) {
    echo createResponse($playerMove); exit;
 }

@@ -3,7 +3,6 @@
  * RandomStrategy is part of the AI strategy model
  * 
  * @author Esteban Retana
- * 
  */
 class RandomStrategy extends MoveStrategy  {
     /**
@@ -12,13 +11,6 @@ class RandomStrategy extends MoveStrategy  {
      * @return columnIndex
      */
     public function pickSlot() {
-        $isBoardFull = True;
-        for ($i = 0; $i < 7; $i++) {
-            if ($this->board[0][$i] == 0) {
-                $isBoardFull = False;
-                break;
-            }
-        }
         if ($isBoardFull)
             return null;
         $randColumn = rand(0,7);

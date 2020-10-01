@@ -1,8 +1,15 @@
 <?php
 /**
+ * Start game from PID created
+ * 
  * @author Esteban Retana
  */
-$json = file_get_contents($file);
+define('PID', 'pid');
+
+define('MOVE', 'move')
+//  TODO: get reguset for pid=p&move=x
+
+$json = file_get_contents("../../writable/db.json");
 $game = Game::fromJsonString($json);
 $playerMove = $game->makePlayerMove($x, $y);
 if ($playerMove->isWin || $playerMove->isDraw) {

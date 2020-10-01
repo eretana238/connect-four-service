@@ -2,7 +2,7 @@
 /**
  * Game Model
  * 
- * @author Esteban Retana
+ * @author Esteban Retana\
  */
 class Game {
     /**
@@ -14,7 +14,7 @@ class Game {
      */
     public $strategy;
     /**
-     * Converts json data into readable a string
+     * Converts json data into a readable a string
      * 
      * @param json obtained from (fake) database
      * @return string
@@ -29,5 +29,9 @@ class Game {
        $game->strategy = $name::fromJson();
        $game->strategy->board = $game->board;
        return $game;
+    }
+
+    public function makePlayerMove($x, $y): none {
+
     }
 }

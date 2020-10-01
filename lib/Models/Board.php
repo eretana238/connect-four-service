@@ -3,7 +3,6 @@
  * Board Model
  * 
  * @author Esteban Retana
- * 
  */
 class Board {
     /**
@@ -15,7 +14,15 @@ class Board {
      */
     public $isFull;
     /**
-     * Contructor for Board
+     * @var int
+     */
+    public $width;
+    /**
+     * @var int
+     */
+    public $height;
+    /**
+     * Contructor for Board. Initializes board array and dimensions
      */
     function __construct() {
         $board = array();
@@ -23,7 +30,6 @@ class Board {
             $board[] = array(0,0,0,0,0,0,0);
     }
     /**
-     * 
      * @param x, y, dx, dy, player
      */
     function checkPlaces($x, $y, $dx, $dy, $player) {
@@ -32,4 +38,3 @@ class Board {
         // check if board is full
     }
 }
-?>

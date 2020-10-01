@@ -4,6 +4,8 @@
  * 
  * @author Esteban Retana
  */
+require_once('../../lib/Models/Board.php');
+
 define('STRATEGY', 'strategy'); 
 
 $strategies = array("Smart", "Random"); 
@@ -25,4 +27,16 @@ if (!in_array($strategy, $strategies)) {
  * @var string
  */
 $pid = uniqid();
+
 echo json_encode(array("response" => true, "PID" => $pid));
+
+$b = new Board();
+
+var_dump($b->board);
+$newGame = array("PID" => $pid, "strategy" => $strategy, "board" => $b->board);
+
+$fp = fopen("../../writable/db.json","w+");
+
+fwrite($fp, json_encode($newGame));
+
+fclose($fp);
