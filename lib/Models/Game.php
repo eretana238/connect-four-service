@@ -4,6 +4,10 @@
  * 
  * @author Esteban Retana\
  */
+include_once("Board.php");
+include_once("../Strategies/RandomStrategy.php");
+include_once("../Strategies/SmartStrategy.php");
+
 class Game {
     /**
      * @var array
@@ -13,6 +17,14 @@ class Game {
      * @var string
      */
     public $strategy;
+    /**
+     * @var array
+     */
+    public $strategies;
+
+    function __construct() {
+        $this->board = new Board();
+    }
     /**
      * Converts json data into a readable a string
      * 
@@ -30,8 +42,18 @@ class Game {
        $game->strategy->board = $game->board;
        return $game;
     }
-
-    public function makePlayerMove($x, $y): none {
-
+    /**
+     * 
+     * @param x defines the slot that the player choose to put with game piece.
+     * @return Move instance
+     */
+    public function makePlayerMove($x) {
+        return Move::makePlayerMove($x);
+    }
+    /**
+     * 
+     */
+    public function makeOpponentMove() {
+        return Move::makeOpponentMove();
     }
 }

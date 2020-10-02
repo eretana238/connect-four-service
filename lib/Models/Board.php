@@ -22,12 +22,15 @@ class Board {
      */
     public $height;
     /**
-     * Contructor for Board. Initializes board array and dimensions
+     * Contructor for Board. Initializes board array and dimensions and isFull to false.
      */
     function __construct() {
-        $board = array();
-        for($i = 0; $i < 6; $i++) 
-            $board[] = array(0,0,0,0,0,0,0);
+      $this->width = 7;
+      $this->height = 6;
+      $this->isFull = false;
+      $this->board = array();
+      for($i = 0; $i < 6; $i++) 
+          $this->board[] = array(0,0,0,0,0,0,0);
     }
     /**
      * @param x, y, dx, dy, player
@@ -35,6 +38,5 @@ class Board {
     function checkPlaces($x, $y, $dx, $dy, $player) {
       // expand to left/lower: $x - $dx, $y - $dy …
       // expand to right/higher: $x + $dy, $y + $dy …
-        // check if board is full
     }
 }
