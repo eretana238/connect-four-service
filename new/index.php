@@ -4,8 +4,7 @@
  * 
  * @author Esteban Retana
  */
-require('../lib/Models/Game.php');
-
+require_once "../lib/Models/Game.php";
 
 define('STRATEGY', 'strategy'); 
 
@@ -33,9 +32,9 @@ $game = new Game();
 
 $board = $game->board;
 
-$newGame = array("pid" => $pid, "strategy" => $strategy, "board" => $game->board);
+$newGame = array("pid" => $pid, "strategy" => $strategy, "board" => $board);
 
-$fp = fopen("../writable/db.json","w");
+$fp = fopen("../writable/$pid.json","w");
 
 fwrite($fp, json_encode($newGame));
 

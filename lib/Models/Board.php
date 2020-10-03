@@ -32,6 +32,10 @@ class Board {
       for($i = 0; $i < 6; $i++) 
           $this->board[] = array(0,0,0,0,0,0,0);
     }
+    
+    static function fromJson($json): string {
+
+    }
     /**
      * @param x, y, dx, dy, player
      */

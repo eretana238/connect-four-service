@@ -4,6 +4,8 @@
  * 
  * @author Esteban Retana
  */
+include_once "MoveStrategy.php";
+
 class SmartStrategy extends MoveStrategy  {
     /**
      * AI does smart move

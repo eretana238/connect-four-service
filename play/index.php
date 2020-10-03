@@ -4,14 +4,17 @@
  * 
  * @author Esteban Retana
  */
-include_once("../lib/Constants.php");
+include_once "../lib/Models/Game.php";
+
+define("PID", "pid");
+define("MOVE", "move");
 
 if (!array_key_exists(PID, $_GET)) {
     echo json_encode(array("response" => false, "reason" => "Pid not specified"));
     exit;
 }
 
-elseif (!array_key_exists(MOVE, $_GET)) {
+if (!array_key_exists(MOVE, $_GET)) {
     echo json_encode(array("response" => false, "reason" => "Move not specified"));
     exit;
 }
@@ -20,16 +23,18 @@ $pid = $_GET[PID];
 
 $move = $_GET[MOVE];
 
-$file = "../../writable/db.json";
+$file = "../writable/$pid.json";
 
 if (!file_exists($file)) {
     echo json_encode(array("response" => false, "reason" => "Unknown pid"));
+    exit;
 }
 
 $slot = inval($move);
 
 if ($slot < 0 || $slot > 6) {
     echo json_encode(array("response" => false, "reason" => "Invalid slot, $slot"));
+    exit;
 }
 
 $json = file_get_contents($file);

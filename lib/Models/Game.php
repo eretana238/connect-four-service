@@ -4,9 +4,9 @@
  * 
  * @author Esteban Retana\
  */
-include_once("Board.php");
-include_once("../Strategies/RandomStrategy.php");
-include_once("../Strategies/SmartStrategy.php");
+require_once __DIR__."/Board.php";
+require_once dirname(__DIR__)."/Strategies/RandomStrategy.php";
+require_once dirname(__DIR__)."/Strategies/SmartStrategy.php";
 
 class Game {
     /**
@@ -43,17 +43,21 @@ class Game {
        return $game;
     }
     /**
+     * Allow the player to make move
      * 
      * @param x defines the slot that the player choose to put with game piece.
-     * @return Move instance
+     * @return Move player instance
      */
-    public function makePlayerMove($x) {
+    public function makePlayerMove($x): Move {
         return Move::makePlayerMove($x);
     }
     /**
+     * Allow the opponent to make a move
      * 
+     * @param none
+     * @return Move opponent instance
      */
-    public function makeOpponentMove() {
+    public function makeOpponentMove(): Move {
         return Move::makeOpponentMove();
     }
 }

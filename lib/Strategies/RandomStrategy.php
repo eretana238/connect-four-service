@@ -4,6 +4,8 @@
  * 
  * @author Esteban Retana
  */
+include_once "MoveStrategy.php";
+
 class RandomStrategy extends MoveStrategy  {
     /**
      * AI picks random slot that is not full
