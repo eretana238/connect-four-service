@@ -25,6 +25,7 @@ class Game {
 
     function __construct() {
         $this->board = new Board();
+        $this->strategies = array("Smart", "Random");
     }
     /**
      * Converts json data into a readable a string
@@ -51,18 +52,29 @@ class Game {
      * @param x defines the slot that the player choose to put with game piece.
      * @return Move player instance
      */
-    public function makePlayerMove($x): Move {        
-        return Move::makePlayerMove($x);
+    public function makePlayerMove($x): Move {
+        if ($this->board->isSlotFull($x))
+            return null;
+        $this->board->placeToken($x);
+        $isWin = $this->board->checkWin();
+        $isDraw = $this->board->checkDraw();
+        $this->board->getRow();
+        return Move::makePlayerMove($x, $isWin, $isDraw, $row);
     }
     /**
-     * Allow the opponent to make a move
+     * Allow the opponent to make a move. Figures out the placing of the token (where it falls to), 
+     * then determines if the move changes the game state to win or to a tie and creates the move
+     * instance with some new data.
      * 
      * @param none
      * @return Move opponent instance
      */
     public function makeOpponentMove(): Move {
         $slot = $this->strategy->pickSlot();
-
-        return Move::makeOpponentMove($x);
+        $this->board->placeToken($slot);
+        $isWin = $this->board->checkWin();
+        $isDraw = $this->board->checkDraw();
+        $row = $this->board->getRow();
+        return Move::makeOpponentMove($x, $isWin, $isDraw, $row);
     }
 }

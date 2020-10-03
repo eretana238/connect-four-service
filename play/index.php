@@ -56,8 +56,12 @@ if ($opponentMove->isWin || $opponentMove->isDraw) {
     echo toJson($playerMove, $opponentMove);
     exit; 
 }
-    
-storeState($file, $game->toJsonString());
+
+$fp = fopen("../writable/$pid.json","w+");
+
+fwrite($fp, json_encode($game->toJsonString()));
+
+fclose($fp);
 
 function toJson(Move $playerMove, $opponentMove = null): json {
     if ($opponentMove = null) {

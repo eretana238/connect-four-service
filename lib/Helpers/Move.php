@@ -11,49 +11,51 @@ class Move {
    /**
     * @var int
     */
-   public $slot;
+   private $slot;
    /**
     * @var boolean
     */
-   public $isWin;
+   private $isWin;
    /**
     * @var boolean
     */
-   public $isDraw;
+   private $isDraw;
    /**
     * @var array
     */
-   public $row;
+   private $row;
 
-   private function __construct($slot, $isWin = false, $isDraw = false, $row = null) {
+   private function __construct($slot, $isWin = false, $isDraw = false, $row = array()) {
       $this->slot = $slot;
       if ($isWin) $this->isWin = $isWin;
       if ($isDraw) $this->isDraw = $isDraw;
       if ($row) $this->row = $row;
    }
    
-   function createResponse($playerMove, $opponentMove = null): json {
+   public function createResponse($playerMove, $opponentMove = null): json {
       $result = array("response" => true, "ack_move" => $playerMove);
       if ($opponentMove != null) { $result["move"] = $opponentMove; }
       return json_encode($result);
    }
    
-   function makePlayerMove($slot) {
-      // 
-      $move = new Move($slot);
-      // i dont think so
+   public function makePlayerMove($slot, $isWin, $isDraw, $row) {
+      return new Move($slot, $isWin, $isDraw, $row);
    }
 
-   function makeOpponentMove() {
-      
+   public function makeOpponentMove($slot, $isWin, $isDraw, $row) {
+      return new Move($slot, $isWin, $isDraw, $row);
    }
 
-   function isWin($slot): boolean {
-   
+   public function getIsWin(): boolean {
+      return $this->isWin;
    }
    
-   function isTie($slot): boolean {
-      
+   public function getIsDraw(): boolean {
+      return $this->isDraw;
+   }
+
+   public function getRow(): boolean {
+      return $this->row;
    }
 }
 ?>

@@ -8,19 +8,23 @@ class Board {
     /**
      * @var array(array)
      */
-    public $board;
+    private $board;
+    /**
+     * @var array
+     */
+    private $row;
     /**
      * @var boolean
      */
-    public $isFull;
+    private $isFull;
     /**
      * @var int
      */
-    public $width;
+    private $width;
     /**
      * @var int
      */
-    public $height;
+    private $height;
     /**
      * Contructor for Board. Initializes board array and dimensions and isFull to false.
      */
@@ -30,23 +34,47 @@ class Board {
       $this->isFull = $isFull;
       if ($board == null) {
         $this->board = array();
-        for($i = 0; $i < 6; $i++) 
+        for ($i = 0; $i < 6; $i++) 
             $this->board[] = array(0,0,0,0,0,0,0);
       }
       else {
         $this->board = $board;
       }
     }
-    
+    /**
+     * Converts json data into a Board instance.
+     * 
+     * @param json data
+     * @return Board instance from json data
+     */
     static function fromJson($json): Board {
       $board= new Board($json->{"width"},$json->{"height"},$json->{"isFull"},$json->{"board"});
       return $board;
     }
     /**
-     * @param x, y, dx, dy, player
+     * Verifies if a token can be inserted in the given slot.
+     * 
+     * @param x column for the board
+     * @return boolean if provided slot is full
      */
-    function checkPlaces($x, $y, $dx, $dy, $player) {
-      // expand to left/lower: $x - $dx, $y - $dy …
-      // expand to right/higher: $x + $dy, $y + $dy …
+    public function isSlotFull($x): boolean {
+        return $this->board[0][$x] != 0;
+    }
+
+    public function placeToken($x, $token) {
+      for ($i = 0; $i < 5; $i++) {
+        if ($this->board[$i+1][$x] != 0)
+          $this->board[$i][$x] = $token;
+          return;
+      }
+      $this->board[6][$x] = $token;
+    }
+    /**
+     * Getter for winning row
+     * 
+     * @return array row
+     */
+    public function getRow() {
+      return $this->row;
     }
 }
