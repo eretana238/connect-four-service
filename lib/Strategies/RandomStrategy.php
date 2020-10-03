@@ -12,7 +12,7 @@ class RandomStrategy extends MoveStrategy  {
      * 
      * @return columnIndex
      */
-    public function pickSlot() {
+    public function pickSlot(): int {
         if ($board->isFull)
             return null;
         $randColumn = rand(0,7);

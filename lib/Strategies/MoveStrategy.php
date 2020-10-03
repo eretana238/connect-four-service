@@ -15,7 +15,7 @@ abstract class MoveStrategy {
    abstract function pickSlot();
 
    function toJson() {
-      return array(‘name’ => get_class($this));
+      return array("name" => get_class($this));
    }
 
    static function fromJson() {

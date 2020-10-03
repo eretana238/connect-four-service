@@ -5,6 +5,8 @@
  * @author Esteban Retana
  */
 require_once "../lib/Models/Game.php";
+require_once "../lib/Strategies/RandomStrategy.php";
+require_once "../lib/Strategies/SmartStrategy.php";
 
 define('STRATEGY', 'strategy'); 
 
@@ -32,7 +34,13 @@ $game = new Game();
 
 $board = $game->board;
 
-$newGame = array("pid" => $pid, "strategy" => $strategy, "board" => $board);
+if ($strategy == "Random") {
+    $strategyObj = new RandomStrategy();
+}
+else {
+    $strategyObj = new SmartStrategy();
+}
+$newGame = array("pid" => $pid, "strategy" => $strategyObj->toJson(), "board" => $board);
 
 $fp = fopen("../writable/$pid.json","w");
 

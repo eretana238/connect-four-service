@@ -4,7 +4,8 @@
  * 
  * @author Esteban Retana
  */
-include_once("../Models/Game.php");
+require_once dirname(__DIR__)."/Models/Game.php";
+require_once dirname(__DIR__)."/Models/Board.php";
 
 class Move {
    /**
@@ -38,7 +39,9 @@ class Move {
    }
    
    function makePlayerMove($slot) {
-      
+      // 
+      $move = new Move($slot);
+      // i dont think so
    }
 
    function makeOpponentMove() {
@@ -47,6 +50,10 @@ class Move {
 
    function isWin($slot): boolean {
    
+   }
+   
+   function isTie($slot): boolean {
+      
    }
 }
 ?>

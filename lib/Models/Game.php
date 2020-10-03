@@ -7,14 +7,15 @@
 require_once __DIR__."/Board.php";
 require_once dirname(__DIR__)."/Strategies/RandomStrategy.php";
 require_once dirname(__DIR__)."/Strategies/SmartStrategy.php";
+require_once dirname(__DIR__)."/Helpers/Move.php";
 
 class Game {
     /**
-     * @var array
+     * @var Board instance
      */
     public $board;
     /**
-     * @var string
+     * @var MoveStrategy instance
      */
     public $strategy;
     /**
@@ -31,7 +32,7 @@ class Game {
      * @param json obtained from (fake) database
      * @return string
      */
-    static function fromJsonString($json): string {
+    static function fromJsonString($json): Game {
        $obj = json_decode($json); // instance of stdClass
        $strategy = $obj->{'strategy'};
        $board = $obj->{'board'};
@@ -43,12 +44,14 @@ class Game {
        return $game;
     }
     /**
-     * Allow the player to make move
+     * Allow the player to make move. Figures out the placing of the token (where it falls to), 
+     * then determines if the move changes the game state to win or to a tie and creates the move
+     * instance with some new data.
      * 
      * @param x defines the slot that the player choose to put with game piece.
      * @return Move player instance
      */
-    public function makePlayerMove($x): Move {
+    public function makePlayerMove($x): Move {        
         return Move::makePlayerMove($x);
     }
     /**
@@ -58,6 +61,8 @@ class Game {
      * @return Move opponent instance
      */
     public function makeOpponentMove(): Move {
-        return Move::makeOpponentMove();
+        $slot = $this->strategy->pickSlot();
+
+        return Move::makeOpponentMove($x);
     }
 }

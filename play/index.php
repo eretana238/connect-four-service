@@ -30,22 +30,22 @@ if (!file_exists($file)) {
     exit;
 }
 
-$slot = inval($move);
+$slot = intval($move);
 
 if ($slot < 0 || $slot > 6) {
     echo json_encode(array("response" => false, "reason" => "Invalid slot, $slot"));
     exit;
 }
 
-$json = file_get_contents($file);
+$jsonString = file_get_contents($file);
 
-$game = Game::fromJsonString($json);
+$game = Game::fromJsonString($jsonString);
 
-$playerMove = $game->makePlayerMove($x);
+$playerMove = $game->makePlayerMove($slot);
 
 if ($playerMove->isWin || $playerMove->isDraw) {
     unlink($file);
-    echo encodeMoves($playerMove);
+    echo toJson($playerMove);
     exit; 
 }
 
@@ -53,13 +53,13 @@ $opponentMove = $game->makeOpponentMove();
 
 if ($opponentMove->isWin || $opponentMove->isDraw) {
     unlink($file);
-    echo encodeMoves($playerMove, $opponentMove);
+    echo toJson($playerMove, $opponentMove);
     exit; 
 }
     
 storeState($file, $game->toJsonString());
 
-function encodeMoves(Move $playerMove, $opponentMove = null): json {
+function toJson(Move $playerMove, $opponentMove = null): json {
     if ($opponentMove = null) {
         $response = array("response" => true, "ack_move" => $playerMove);
         return json_encode($response);
