@@ -5,7 +5,7 @@
  * 
  * @author Esteban Retana
  */
-include_once dirname(__DIR__) . "/lib/Models/Game.php";
+include_once __DIR__ . "/Game.php";
 
 define("PID", "pid");
 define("MOVE", "move");

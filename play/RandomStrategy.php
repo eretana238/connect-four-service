@@ -18,8 +18,8 @@ class RandomStrategy extends MoveStrategy
     {
         if ($board->isFull)
             return null;
-        $randColumn = rand(0, 7);
-        for ($i = $randColumn; $i < $i + 7; $i++) {
+        $randColumn = rand(0, 6);
+        for ($i = $randColumn; $i < $randColumn + 6; $i++) {
             if ($this->board->board[0][$i % 7] == 0)
                 return $i;
         }

@@ -19,7 +19,6 @@ class Board
      * @var array
      */
     public $row;
-
     /**
      * Contructor for Board. Initializes board array and dimensions and placesRemaining to false.
      */
@@ -78,17 +77,15 @@ class Board
      * @param x column for board, y row for board, token is player or AI game piece identifier
      * @return bool
      */
-    public function checkWin($x, $y, $token): bool
+    function checkWin($x, $y, $token): bool
     {
         $counter = 0;
         // check horizontally
         for ($col = 0; $col < 7; $col++) {
             if ($this->board[$y][$col] == $token) {
                 $counter++;
-                $this->row[] = $col;
-                $this->row[] = $y;
-            }
-            else {
+                array_push($this->row, $col, $y);
+            } else {
                 $counter = 0;
                 $this->row = array();
             }
@@ -102,135 +99,121 @@ class Board
         for ($row = 0; $row < 6; $row++) {
             if ($this->board[$row][$x] == $token) {
                 $counter++;
-                $this->row[] = $x;
-                $this->row[] = $row;
-            }
-            else {
+                array_push($this->row, $x, $row);
+            } else {
                 $counter = 0;
                 $this->row = array();
             }
+
             if ($counter == 4) {
-                $this->row = $row;
                 return true;
             }
         }
         // check negative diagonal
-        if ($this->checkNegativeDiagonal($col, $row, $token))
+        if ($this->checkNegativeDiagonal($x, $y, $token))
             return true;
 
         // check positive diagonal
-        if ($this->checkPositiveDiagonal($col, $row, $token))
+        if ($this->checkPositiveDiagonal($x, $y, $token))
             return true;
 
         return false;
     }
-
+    /**
+     * Checks if the piece in the board has made negative diagonal winning move.
+     * 
+     * @param x column for board, y row for board, token is player or AI game piece identifier
+     * @return bool
+     */
     function checkNegativeDiagonal($x, $y, $token): bool
     {
-        $counter = 0;
+        $row = $y;
         $col = $x;
-        $this->row = array();
-        // check from placed token to bottom left
-        for ($row = $y; $row < 6; $row++) {
-            if ($col < 0)
-                break;
-            if ($this->board[$row][$col] == $token) {
-                $counter++;
-                $this->row[] = $row;
-                $this->row[] = $col;
+        if ($row == 0 or $col == 0) {
+            $col = $x;
+        } else {
+            for ($col = $x; $col >= 0; $col--) {
+                if ($row >= 6)
+                    break;
+                $row++;
             }
-            else {
-                $counter = 0;
-                $this->row = array();
-            }
-            if ($counter == 4)
-                return true;
-            $col--;
+            $row--;
+            $col++;
         }
         $counter = 0;
-        $col = $x;
         $this->row = array();
-        // check from placed token to top right
-        for ($row = $y; $row > 0; $row--) {
-            if ($col > 7)
+        // check from placed token to bottom left
+        while ($row >= 0) {
+            if ($col >= 7)
                 break;
+            // echo json_encode(array($row,$col));
             if ($this->board[$row][$col] == $token) {
                 $counter++;
-                $this->row[] = $row;
-                $this->row[] = $col;
-            }
-            else {
+                array_push($this->row, $col, $row);
+            } else {
                 $counter = 0;
                 $this->row = array();
             }
             if ($counter == 4)
                 return true;
             $col++;
+            $row--;
         }
         return false;
     }
-
-    public function checkPositiveDiagonal($x, $y, $token): bool
+    /**
+     * Checks if the piece in the board has made positive diagonal winning move.
+     * 
+     * @param x column for board, y row for board, token is player or AI game piece identifier
+     * @return bool
+     */
+    function checkPositiveDiagonal($x, $y, $token): bool
     {
-        $counter = 0;
+        $row = $y;
         $col = $x;
+        if ($row == 0 or $col == 0) {
+            $col = $x;
+        } else {
+            for ($col = $x; $col >= 0; $col--) {
+                if ($row < 0)
+                    break;
+                $row--;
+            }
+            $row++;
+            $col++;
+        }
+        $counter = 0;
         $this->row = array();
-        // check from placed token to bottom left
-        for ($row = $y; $row < 6; $row++) {
-            if ($col > 7)
+        // check from placed token to bottom right
+        while ($row < 6) {
+            if ($col >= 7)
                 break;
             if ($this->board[$row][$col] == $token) {
                 $counter++;
-                $this->row[] = $row;
-                $this->row[] = $col;
-            }
-            else {
+                array_push($this->row, $col, $row);
+            } else {
                 $counter = 0;
                 $this->row = array();
             }
             if ($counter == 4)
                 return true;
             $col++;
-        }
-        $counter = 0;
-        $col = $x;
-        $this->row = array();
-        // check from placed token to top right
-        for ($row = $y; $row > 0; $row--) {
-            if ($col < 0)
-                break;
-            if ($this->board[$row][$col] == $token) {
-                $counter++;
-                $this->row[] = $row;
-                $this->row[] = $col;
-            }
-            else {
-                $counter = 0;
-                $this->row = array();
-            }
-            if ($counter == 4)
-                return true;
-            $col--;
+            $row++;
         }
         $this->row = array();
         return false;
     }
-
-    public function checkDraw()
+    /**
+     * Checks if top row of the board is full.
+     * 
+     * @return bool
+     */
+    public function checkDraw(): bool
     {
         for ($i = 0; $i < WIDTH; $i++) {
             if ($this->board[0][$i] == 0)
                 return false;
         }
         return true;
-    }
-    /**
-     * Getter for winning row
-     * 
-     * @return array row
-     */
-    public function getRow()
-    {
-        return $this->row;
     }
 }

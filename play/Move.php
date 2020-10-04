@@ -57,8 +57,7 @@ class Move
     */
    static function makePlayerMove($slot, $isWin, $isDraw, $row)
    {
-      $move = new Move($slot, $isWin, $isDraw, $row);
-      return $move;
+      return new Move($slot, $isWin, $isDraw, $row);
    }
    /**
     * Creates an instance of Move to check the current status of the move done by the AI opponent

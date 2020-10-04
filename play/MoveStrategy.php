@@ -5,7 +5,7 @@
  * 
  * @author Esteban Retana
  */
-require_once dirname(__DIR__) . "/Models/Board.php";
+require_once __DIR__ . "/Board.php";
 
 abstract class MoveStrategy
 {

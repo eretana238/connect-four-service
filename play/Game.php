@@ -3,12 +3,13 @@
 /**
  * Game Model
  * 
- * @author Esteban Retana\
+ * @author Esteban Retana
  */
-include_once __DIR__ . "/Game.php";
-include_once dirname(__DIR__) . "/Strategies/RandomStrategy.php";
-include_once dirname(__DIR__) . "/Strategies/SmartStrategy.php";
-include_once dirname(__DIR__) . "/Helpers/Move.php";
+include_once __DIR__ . "/Board.php";
+include_once __DIR__ . "/MoveStrategy.php";
+include_once __DIR__ . "/RandomStrategy.php";
+include_once __DIR__ . "/SmartStrategy.php";
+include_once __DIR__ . "/Move.php";
 
 class Game
 {
@@ -59,16 +60,15 @@ class Game
      * @param x defines the slot that the player choose to put with game piece.
      * @return Move player instance
      */
-    public function makePlayerMove($x): 
+    public function makePlayerMove($x): Move
     {
-        // if ($this->board->isSlotFull($x))
-        //     return null;
-        // $piece = $this->board->placeToken($x, 1); // piece coordinates x, y
-        // $isWin = $this->board->checkWin($piece[0],$piece[1], 1);
-        // $isDraw = $this->board->checkDraw();
-        // $row = $this->board->getRow();
-        // return Move::makePlayerMove($x, $isWin, $isDraw, $row);
-        // return Move::makePlayerMove(0,false,false,array());
+        if ($this->board->isSlotFull($x))
+            return null;
+        $piece = $this->board->placeToken($x, 1); // piece coordinates x, y
+        $isWin = $this->board->checkWin($piece[0],$piece[1], 1);
+        $isDraw = $this->board->checkDraw();
+        $row = $this->board->row;
+        return Move::makePlayerMove($x, $isWin, $isDraw, $row);
     }
     /**
      * Allow the opponent to make a move. Figures out the placing of the token (where it falls to), 
@@ -84,7 +84,7 @@ class Game
         $piece = $this->board->placeToken($slot, 2); // piece coordinates x, y
         $isWin = $this->board->checkWin($piece[0], $piece[1],2);
         $isDraw = $this->board->checkDraw();
-        $row = $this->board->getRow();
+        $row = $this->board->row;
         return Move::makeOpponentMove($slot, $isWin, $isDraw, $row);
     }
 }

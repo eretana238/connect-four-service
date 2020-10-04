@@ -5,9 +5,9 @@
  * 
  * @author Esteban Retana
  */
-include_once('../lib/Models/Game.php');
-include_once('../lib/Strategies/RandomStrategy.php');
-include_once('../lib/Strategies/SmartStrategy.php');
+include_once dirname(__DIR__) . "/play/Game.php";
+include_once dirname(__DIR__) . "/play/RandomStrategy.php";
+include_once dirname(__DIR__) . "/play/SmartStrategy.php";
 
 define('STRATEGY', 'strategy');
 
@@ -31,18 +31,18 @@ $game = new Game();
 
 $board = $game->board;
 
-// if ($strategy == "Random") {
-//     $strategyObj = new RandomStrategy();
-// } else {
-//     $strategyObj = new SmartStrategy();
-// }
-// $newGame = array("strategy" => $strategyObj->toJson(), "board" => $board);
+if ($strategy == "Random") {
+    $strategyObj = new RandomStrategy();
+} else {
+    $strategyObj = new SmartStrategy();
+}
+$newGame = array("strategy" => $strategyObj->toJson(), "board" => $board);
 
-// $fp = fopen(dirname(__DIR__) . "/writable/$pid.json", "w");
+$fp = fopen(dirname(__DIR__) . "/writable/$pid.json", "w");
 
-// fwrite($fp, json_encode($newGame));
+fwrite($fp, json_encode($newGame));
 
-// fclose($fp);
+fclose($fp);
 
 echo json_encode(array("response" => true, "pid" => $pid));
 ?>
