@@ -1,4 +1,5 @@
-<?php 
+<?php
+
 /**
  * Provides response documentation about the game
  * 
@@ -12,4 +13,4 @@ $strategies = array("Smart" => "SmartStrategy", "Random" => "RandomStrategy");
 
 $info = array("width" => WIDTH, "height" => HEIGHT, "strategies" => array_keys($strategies));
 
-echo json_encode($info); 
+echo json_encode($info);

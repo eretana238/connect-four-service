@@ -1,13 +1,15 @@
 <?php
+
 /**
  * Helps the player make a move
  * 
  * @author Esteban Retana
  */
-require_once dirname(__DIR__)."/Models/Game.php";
-require_once dirname(__DIR__)."/Models/Board.php";
+require_once dirname(__DIR__) . "/Models/Game.php";
+require_once dirname(__DIR__) . "/Models/Board.php";
 
-class Move {
+class Move
+{
    /**
     * @var int
     */
@@ -27,7 +29,8 @@ class Move {
    /**
     * Constructor for Move
     */
-   private function __construct($slot, $isWin = false, $isDraw = false, $row = array()) {
+   private function __construct($slot, $isWin = false, $isDraw = false, $row = array())
+   {
       $this->slot = $slot;
       if ($isWin) $this->isWin = $isWin;
       if ($isDraw) $this->isDraw = $isDraw;
@@ -39,9 +42,12 @@ class Move {
     * @param playerMove instance of Move, opponentMove instance of Move
     * @return json data
     */
-   public function createResponse($playerMove, $opponentMove = null): string {
+   public function createResponse($playerMove, $opponentMove = null): string
+   {
       $result = array("response" => true, "ack_move" => $playerMove);
-      if ($opponentMove != null) { $result["move"] = $opponentMove; }
+      if ($opponentMove != null) {
+         $result["move"] = $opponentMove;
+      }
       return json_encode($result);
    }
    /**
@@ -51,7 +57,8 @@ class Move {
     * has been done then it is a draw, row is an array representing the winning row (represented by x1,y1,x2,y2...) 
     * @return Move instance of player
     */
-   public function makePlayerMove($slot, $isWin, $isDraw, $row) {
+   static function makePlayerMove($slot, $isWin, $isDraw, $row)
+   {
       return new Move($slot, $isWin, $isDraw, $row);
    }
    /**
@@ -61,7 +68,8 @@ class Move {
     * has been done then it is a draw, row is an array representing the winning row (represented by x1,y1,x2,y2...) 
     * @return Move instance of player
     */
-   public function makeOpponentMove($slot, $isWin, $isDraw, $row) {
+   static function makeOpponentMove($slot, $isWin, $isDraw, $row)
+   {
       return new Move($slot, $isWin, $isDraw, $row);
    }
    /**
@@ -69,16 +77,18 @@ class Move {
 
     * @return isWin, isDraw, row
     */
-   public function getIsWin(): bool {
+   public function getIsWin(): bool
+   {
       return $this->isWin;
    }
 
-   public function getIsDraw(): bool {
+   public function getIsDraw(): bool
+   {
       return $this->isDraw;
    }
 
-   public function getRow(): array {
+   public function getRow(): array
+   {
       return $this->row;
    }
 }
-?>

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * SmartStrategy is part of the AI strategy model
  * 
@@ -6,13 +7,14 @@
  */
 include_once "MoveStrategy.php";
 
-class SmartStrategy extends MoveStrategy  {
+class SmartStrategy extends MoveStrategy
+{
     /**
      * AI does smart move
      * 
      * @return columnIndex
      */
-    public function pickSlot() {
-        
+    public function pickSlot()
+    {
     }
 }

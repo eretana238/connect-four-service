@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Start game from PID created
  * 
@@ -46,7 +47,7 @@ $playerMove = $game->makePlayerMove($slot);
 if ($playerMove->isWin || $playerMove->isDraw) {
     unlink($file);
     echo toJson($playerMove);
-    exit; 
+    exit;
 }
 
 $opponentMove = $game->makeOpponentMove();
@@ -54,21 +55,21 @@ $opponentMove = $game->makeOpponentMove();
 if ($opponentMove->isWin || $opponentMove->isDraw) {
     unlink($file);
     echo toJson($playerMove, $opponentMove);
-    exit; 
+    exit;
 }
 
-$fp = fopen("../writable/$pid.json","w+");
+$fp = fopen("../writable/$pid.json", "w+");
 
 fwrite($fp, json_encode($game->toJsonString()));
 
 fclose($fp);
 
-function toJson(Move $playerMove, $opponentMove = null): string {
+function toJson(Move $playerMove, $opponentMove = null): string
+{
     if ($opponentMove = null) {
         $response = array("response" => true, "ack_move" => $playerMove);
         return json_encode($response);
-    }
-    else {
+    } else {
         $response = array("reponse" => true, "ack_move" => $playerMove, "move" => $opponentMove);
     }
     return $response;

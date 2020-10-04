@@ -1,4 +1,5 @@
 <?php
+
 /**
  * RandomStrategy is part of the AI strategy model
  * 
@@ -6,18 +7,20 @@
  */
 include_once "MoveStrategy.php";
 
-class RandomStrategy extends MoveStrategy  {
+class RandomStrategy extends MoveStrategy
+{
     /**
      * AI picks random slot that is not full
      * 
      * @return columnIndex
      */
-    public function pickSlot(): int {
+    public function pickSlot(): int
+    {
         if ($board->isFull)
             return null;
-        $randColumn = rand(0,7);
+        $randColumn = rand(0, 7);
         for ($i = $randColumn; $i < $i + 7; $i++) {
-            if($this->board[0][$i%7] == 0)
+            if ($this->board[0][$i % 7] == 0)
                 return $i;
         }
     }

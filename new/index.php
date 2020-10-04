@@ -1,4 +1,5 @@
-<?php 
+<?php
+
 /**
  * Create new game based on strategy provided
  * 
@@ -8,27 +9,23 @@ require_once "../lib/Models/Game.php";
 require_once "../lib/Strategies/RandomStrategy.php";
 require_once "../lib/Strategies/SmartStrategy.php";
 
-define('STRATEGY', 'strategy'); 
+define('STRATEGY', 'strategy');
 
-$strategies = array("Smart", "Random"); 
+$strategies = array("Smart", "Random");
 
-if (!array_key_exists(STRATEGY, $_GET)) { 
+if (!array_key_exists(STRATEGY, $_GET)) {
     echo json_encode(array("response" => false, "reason" => "Strategy not specified"));
-    exit; 
+    exit;
 }
-/**
- * @var string
- */
+
 $strategy = $_GET[STRATEGY];
 
 if (!in_array($strategy, $strategies)) {
     echo json_encode(array("response" => false, "reason" => "Unknown strategy"));
     exit;
 }
-/**
- * @var string
- */
-$pid = uniqid();
+
+$pid = uniqid(); // unique id
 
 $game = new Game();
 
@@ -36,13 +33,12 @@ $board = $game->board;
 
 if ($strategy == "Random") {
     $strategyObj = new RandomStrategy();
-}
-else {
+} else {
     $strategyObj = new SmartStrategy();
 }
 $newGame = array("pid" => $pid, "strategy" => $strategyObj->toJson(), "board" => $board);
 
-$fp = fopen("../writable/$pid.json","w");
+$fp = fopen("../writable/$pid.json", "w");
 
 fwrite($fp, json_encode($newGame));
 
