@@ -5,7 +5,7 @@
  * 
  * @author Esteban Retana
  */
-include_once "MoveStrategy.php";
+require_once __DIR__ . "/MoveStrategy.php";
 
 class RandomStrategy extends MoveStrategy
 {
@@ -20,7 +20,7 @@ class RandomStrategy extends MoveStrategy
             return null;
         $randColumn = rand(0, 7);
         for ($i = $randColumn; $i < $i + 7; $i++) {
-            if ($this->board[0][$i % 7] == 0)
+            if ($this->board->board[0][$i % 7] == 0)
                 return $i;
         }
     }

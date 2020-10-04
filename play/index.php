@@ -5,7 +5,7 @@
  * 
  * @author Esteban Retana
  */
-include_once "../lib/Models/Game.php";
+include_once dirname(__DIR__) . "/lib/Models/Game.php";
 
 define("PID", "pid");
 define("MOVE", "move");
@@ -24,7 +24,7 @@ $pid = $_GET[PID];
 
 $move = $_GET[MOVE];
 
-$file = "../writable/$pid.json";
+$file = dirname(__DIR__) . "/writable/$pid.json";
 
 if (!file_exists($file)) {
     echo json_encode(array("response" => false, "reason" => "Unknown pid"));
@@ -58,19 +58,21 @@ if ($opponentMove->isWin || $opponentMove->isDraw) {
     exit;
 }
 
-$fp = fopen("../writable/$pid.json", "w+");
+$fp = fopen($file, "w");
 
-fwrite($fp, json_encode($game->toJsonString()));
+fwrite($fp, json_encode($game));
 
 fclose($fp);
 
+echo toJson($playerMove, $opponentMove);
+
 function toJson(Move $playerMove, $opponentMove = null): string
 {
-    if ($opponentMove = null) {
+    if ($opponentMove == null) {
         $response = array("response" => true, "ack_move" => $playerMove);
-        return json_encode($response);
     } else {
         $response = array("reponse" => true, "ack_move" => $playerMove, "move" => $opponentMove);
     }
-    return $response;
+    return json_encode($response);
 }
+?>

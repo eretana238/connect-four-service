@@ -5,7 +5,7 @@
  * 
  * @author Esteban Retana
  */
-include_once "MoveStrategy.php";
+include_once __DIR__ . "/MoveStrategy.php";
 
 class SmartStrategy extends MoveStrategy
 {

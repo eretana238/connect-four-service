@@ -5,36 +5,34 @@
  * 
  * @author Esteban Retana
  */
-require_once dirname(__DIR__) . "/Models/Game.php";
-require_once dirname(__DIR__) . "/Models/Board.php";
 
 class Move
 {
    /**
     * @var int
     */
-   private $slot;
+   public $slot;
    /**
     * @var boolean
     */
-   private $isWin;
+   public $isWin;
    /**
     * @var boolean
     */
-   private $isDraw;
+   public $isDraw;
    /**
     * @var array
     */
-   private $row;
+   public $row;
    /**
     * Constructor for Move
     */
    private function __construct($slot, $isWin = false, $isDraw = false, $row = array())
    {
       $this->slot = $slot;
-      if ($isWin) $this->isWin = $isWin;
-      if ($isDraw) $this->isDraw = $isDraw;
-      if ($row) $this->row = $row;
+      $this->isWin = $isWin;
+      $this->isDraw = $isDraw;
+      $this->row = $row;
    }
    /**
     * Generates response for both playermove and opponent move. Obtains the moves current state.
@@ -59,7 +57,8 @@ class Move
     */
    static function makePlayerMove($slot, $isWin, $isDraw, $row)
    {
-      return new Move($slot, $isWin, $isDraw, $row);
+      $move = new Move($slot, $isWin, $isDraw, $row);
+      return $move;
    }
    /**
     * Creates an instance of Move to check the current status of the move done by the AI opponent
@@ -71,24 +70,5 @@ class Move
    static function makeOpponentMove($slot, $isWin, $isDraw, $row)
    {
       return new Move($slot, $isWin, $isDraw, $row);
-   }
-   /**
-    * Getters for isWin, isDraw, row
-
-    * @return isWin, isDraw, row
-    */
-   public function getIsWin(): bool
-   {
-      return $this->isWin;
-   }
-
-   public function getIsDraw(): bool
-   {
-      return $this->isDraw;
-   }
-
-   public function getRow(): array
-   {
-      return $this->row;
    }
 }

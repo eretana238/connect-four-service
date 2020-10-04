@@ -14,21 +14,17 @@ class Board
     /**
      * @var array(array)
      */
-    private $board;
+    public $board;
     /**
      * @var array
      */
-    private $row;
-    /**
-     * @var int
-     */
-    private $placesRemaining;
+    public $row;
+
     /**
      * Contructor for Board. Initializes board array and dimensions and placesRemaining to false.
      */
-    function __construct($placesRemaining = 42, $board = null)
+    function __construct($board = null, $row = array())
     {
-        $this->placesRemaining = $placesRemaining;
         if ($board == null) {
             $this->board = array();
             for ($i = 0; $i < 6; $i++)
@@ -36,6 +32,7 @@ class Board
         } else {
             $this->board = $board;
         }
+        $this->row = $row;
     }
     /**
      * Converts json data into a Board instance.
@@ -45,7 +42,7 @@ class Board
      */
     static function fromJson($json): Board
     {
-        $board = new Board($json->{"width"}, $json->{"height"}, $json->{"isFull"}, $json->{"board"});
+        $board = new Board($json->{"board"}, $json->{"row"});
         return $board;
     }
     /**
@@ -67,10 +64,10 @@ class Board
     public function placeToken($x, $token): array
     {
         for ($i = 0; $i < HEIGHT - 1; $i++) {
-            if ($this->board[$i + 1][$x] != 0)
+            if ($this->board[$i + 1][$x] != 0) {
                 $this->board[$i][$x] = $token;
-            $this->placesRemaining--;
-            return array($i, $x);
+                return array($i, $x);
+            }
         }
         $this->board[HEIGHT - 1][$x] = $token;
         return array(HEIGHT - 1, $x);
@@ -91,6 +88,10 @@ class Board
                 $this->row[] = $col;
                 $this->row[] = $y;
             }
+            else {
+                $counter = 0;
+                $this->row = array();
+            }
             if ($counter == 4) {
                 return true;
             }
@@ -103,6 +104,10 @@ class Board
                 $counter++;
                 $this->row[] = $x;
                 $this->row[] = $row;
+            }
+            else {
+                $counter = 0;
+                $this->row = array();
             }
             if ($counter == 4) {
                 $this->row = $row;
@@ -134,6 +139,10 @@ class Board
                 $this->row[] = $row;
                 $this->row[] = $col;
             }
+            else {
+                $counter = 0;
+                $this->row = array();
+            }
             if ($counter == 4)
                 return true;
             $col--;
@@ -149,6 +158,10 @@ class Board
                 $counter++;
                 $this->row[] = $row;
                 $this->row[] = $col;
+            }
+            else {
+                $counter = 0;
+                $this->row = array();
             }
             if ($counter == 4)
                 return true;
@@ -171,6 +184,10 @@ class Board
                 $this->row[] = $row;
                 $this->row[] = $col;
             }
+            else {
+                $counter = 0;
+                $this->row = array();
+            }
             if ($counter == 4)
                 return true;
             $col++;
@@ -187,6 +204,10 @@ class Board
                 $this->row[] = $row;
                 $this->row[] = $col;
             }
+            else {
+                $counter = 0;
+                $this->row = array();
+            }
             if ($counter == 4)
                 return true;
             $col--;
@@ -197,7 +218,11 @@ class Board
 
     public function checkDraw()
     {
-        return $this->placesRemaining == 0;
+        for ($i = 0; $i < WIDTH; $i++) {
+            if ($this->board[0][$i] == 0)
+                return false;
+        }
+        return true;
     }
     /**
      * Getter for winning row

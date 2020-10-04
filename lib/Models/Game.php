@@ -5,10 +5,10 @@
  * 
  * @author Esteban Retana\
  */
-require_once __DIR__ . "/Board.php";
-require_once dirname(__DIR__) . "/Strategies/RandomStrategy.php";
-require_once dirname(__DIR__) . "/Strategies/SmartStrategy.php";
-require_once dirname(__DIR__) . "/Helpers/Move.php";
+include_once __DIR__ . "/Game.php";
+include_once dirname(__DIR__) . "/Strategies/RandomStrategy.php";
+include_once dirname(__DIR__) . "/Strategies/SmartStrategy.php";
+include_once dirname(__DIR__) . "/Helpers/Move.php";
 
 class Game
 {
@@ -20,6 +20,8 @@ class Game
      * @var MoveStrategy instance
      */
     public $strategy;
+
+    private $strategyObj;
     /**
      * @var array
      */
@@ -39,13 +41,14 @@ class Game
     static function fromJsonString($json): Game
     {
         $obj = json_decode($json); // instance of stdClass
-        $strategy = $obj->{'strategy'};
-        $board = $obj->{'board'};
+        $strategy = $obj->{"strategy"};
+        $board = $obj->{"board"};
         $game = new Game();
         $game->board = Board::fromJson($board);
-        $name = $strategy->{'name'};
-        $game->strategy = $name::fromJson();
-        $game->strategy->board = $game->board;
+        $name = $strategy->{"name"};
+        $game->strategyObj = $name::fromJson();
+        $game->strategyObj->board = $game->board;
+        $game->strategy = $game->strategyObj->toJson();
         return $game;
     }
     /**
@@ -56,15 +59,16 @@ class Game
      * @param x defines the slot that the player choose to put with game piece.
      * @return Move player instance
      */
-    public function makePlayerMove($x): Move
+    public function makePlayerMove($x): 
     {
-        if ($this->board->isSlotFull($x))
-            return null;
-        $piece = $this->board->placeToken($x, 1); // piece coordinates x, y
-        $isWin = $this->board->checkWin($piece[0],$piece[1], 1);
-        $isDraw = $this->board->checkDraw();
-        $row = $this->board->getRow();
-        return Move::makePlayerMove($x, $isWin, $isDraw, $row);
+        // if ($this->board->isSlotFull($x))
+        //     return null;
+        // $piece = $this->board->placeToken($x, 1); // piece coordinates x, y
+        // $isWin = $this->board->checkWin($piece[0],$piece[1], 1);
+        // $isDraw = $this->board->checkDraw();
+        // $row = $this->board->getRow();
+        // return Move::makePlayerMove($x, $isWin, $isDraw, $row);
+        // return Move::makePlayerMove(0,false,false,array());
     }
     /**
      * Allow the opponent to make a move. Figures out the placing of the token (where it falls to), 
@@ -76,7 +80,7 @@ class Game
      */
     public function makeOpponentMove(): Move
     {
-        $slot = $this->strategy->pickSlot();
+        $slot = $this->strategyObj->pickSlot();
         $piece = $this->board->placeToken($slot, 2); // piece coordinates x, y
         $isWin = $this->board->checkWin($piece[0], $piece[1],2);
         $isDraw = $this->board->checkDraw();
