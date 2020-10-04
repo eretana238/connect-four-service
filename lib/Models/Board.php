@@ -6,18 +6,6 @@
  */
 class Board {
     /**
-     * @var array(array)
-     */
-    private $board;
-    /**
-     * @var array
-     */
-    private $row;
-    /**
-     * @var boolean
-     */
-    private $isFull;
-    /**
      * @var int
      */
     private $width;
@@ -26,12 +14,24 @@ class Board {
      */
     private $height;
     /**
-     * Contructor for Board. Initializes board array and dimensions and isFull to false.
+     * @var array(array)
      */
-    function __construct($width = 7, $height = 6, $isFull = false, $board = null) {
+    private $board;
+    /**
+     * @var array
+     */
+    private $row;
+    /**
+     * @var int
+     */
+    private $placesRemaining;
+    /**
+     * Contructor for Board. Initializes board array and dimensions and placesRemaining to false.
+     */
+    function __construct($width = 7, $height = 6, $placesRemaining = 42, $board = null) {
       $this->width = $width;
       $this->height = $height;
-      $this->isFull = $isFull;
+      $this->placesRemaining = $placesRemaining;
       if ($board == null) {
         $this->board = array();
         for ($i = 0; $i < 6; $i++) 
@@ -55,19 +55,43 @@ class Board {
      * Verifies if a token can be inserted in the given slot.
      * 
      * @param x column for the board
-     * @return boolean if provided slot is full
+     * @return bool if provided slot is full
      */
-    public function isSlotFull($x): boolean {
+    public function isSlotFull($x): bool {
         return $this->board[0][$x] != 0;
     }
-
+    /**
+     * Inserts token into the lowest available space in the slot.
+     * 
+     * @param x column for the board, token number representing the player or opponent's move
+     * @return array with row index followed by column index
+     */
     public function placeToken($x, $token) {
       for ($i = 0; $i < 5; $i++) {
         if ($this->board[$i+1][$x] != 0)
           $this->board[$i][$x] = $token;
-          return;
+          return array($i,$x);
       }
       $this->board[6][$x] = $token;
+      return array(6,$x);
+    }
+    // 
+    public function checkWin($x, $y, $player) {
+      // check horizontally
+      for ($col = 0; $col < 6; $col++) {
+
+      }
+      // check vertically
+      for ($row = 0; $row < 5; $row++) {
+
+      }
+      // check negative diagonal
+
+      // check positive diagonal
+    }
+
+    public function checkDraw() {
+      return $this->placesRemaining == 0;
     }
     /**
      * Getter for winning row

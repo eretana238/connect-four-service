@@ -63,7 +63,7 @@ fwrite($fp, json_encode($game->toJsonString()));
 
 fclose($fp);
 
-function toJson(Move $playerMove, $opponentMove = null): json {
+function toJson(Move $playerMove, $opponentMove = null): string {
     if ($opponentMove = null) {
         $response = array("response" => true, "ack_move" => $playerMove);
         return json_encode($response);

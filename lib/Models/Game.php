@@ -55,7 +55,7 @@ class Game {
     public function makePlayerMove($x): Move {
         if ($this->board->isSlotFull($x))
             return null;
-        $this->board->placeToken($x);
+        $this->board->placeToken($x,1);
         $isWin = $this->board->checkWin();
         $isDraw = $this->board->checkDraw();
         $this->board->getRow();
@@ -71,7 +71,7 @@ class Game {
      */
     public function makeOpponentMove(): Move {
         $slot = $this->strategy->pickSlot();
-        $this->board->placeToken($slot);
+        $this->board->placeToken($slot,2);
         $isWin = $this->board->checkWin();
         $isDraw = $this->board->checkDraw();
         $row = $this->board->getRow();
